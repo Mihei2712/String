@@ -3,7 +3,7 @@ using namespace std;
 
 /*
 	TODO:
-	Перегрузить операторы: -, -=, prefix --, suffix --, >>
+	Перегрузить операторы: -, -=, prefix --, ssuffix --, >>
 */
 
 //http://www.cplusplus.com/doc/tutorial/classes2/
@@ -19,23 +19,14 @@ class Point
 	double x;
 	double y;
 public:
-	const double& get_x() const
+	double get_x() const
 	{
 		return x;
 	}
-	double& get_x()
-	{
-		return x;
-	}
-	const double& get_y() const
+	double get_y() const
 	{
 		return y;
 	}
-	double& get_y()
-	{
-		return y;
-	}
-
 	void set_x(double x)
 	{
 		//if (x > 100)this->x = 100;
@@ -81,6 +72,7 @@ public:
 	}
 
 	/*Point operator+(const Point& other)
+
 	{
 		Point temp;
 		temp.x = this->x + other.x;
@@ -92,13 +84,6 @@ public:
 	{
 		this->x += other.x;
 		this->y += other.y;
-		return *this;
-	}
-
-	Point& operator-=(const Point& other)
-	{
-		this->x -= other.x;
-		this->y -= other.y;
 		return *this;
 	}
 
@@ -116,19 +101,6 @@ public:
 		this->y++;
 		return temp;
 	}
-	Point& operator--()
-	{
-		this->x--;
-		this->y--;
-		return *this;
-	}
-	Point operator--(int)
-	{
-		Point temp = *this;
-		this->x--;
-		this->y--;
-		return temp;
-	}
 
 	//			Methods:
 
@@ -144,8 +116,6 @@ public:
 	{
 		cout << "x = " << x << "\ty = " << y << endl;
 	}
-
-	friend istream& operator>>(istream& is, Point& obj);
 };
 
 Point operator+(const Point& left, const Point& right)
@@ -156,29 +126,10 @@ Point operator+(const Point& left, const Point& right)
 	return Point(left.get_x() + right.get_x(), left.get_y() + right.get_y());
 }
 
-Point operator-(const Point& left, const Point& right)
-{
-	//Point temp(left.get_x() + right.get_x(), left.get_y() + right.get_y());
-	/*temp.set_x(left.get_x() + right.get_x());
-	temp.set_y(left.get_y() + right.get_y());*/
-	return Point(left.get_x() - right.get_x(), left.get_y() - right.get_y());
-}
-
 ostream& operator<<(ostream& os, const Point& obj)
 {
-	/*os << "x = " << obj.get_x() << "\ty = " << obj.get_y();
-	return os;*/
-	return os << "x = " << obj.get_x() << "\ty = " << obj.get_y();
-}
-istream& operator>>(istream& is, Point& obj)
-{
-	/*double x, y;
-	is >> x >> y;
-	obj.set_x(x);
-	obj.set_y(y);*/
-
-	//return is >> obj.x >> obj.y;
-	return is >> obj.get_x() >> obj.get_y();
+	os << "x = " << obj.get_x() << "\ty = " << obj.get_y();
+	return os;
 }
 
 double distance(const Point& A, const Point& B)
@@ -262,7 +213,6 @@ void main()
 	int a = 2;
 	int b = 3;
 	cout << a + b << endl;
-	a += b;
 	Point A(2, 3);
 	A.print();
 	//cout << A << endl;
@@ -280,11 +230,9 @@ void main()
 	Point A;
 	/*cout << A++ << endl;
 	cout << A << endl;*/
-	cout << "Введите координаты точки: "; 
-	cin >> A;
-	cout << A-- << endl;
+	cout << "Введите координаты точки"; cin >> A;
 	cout << A << endl;
-	A.op
+	cout << A-- << endl;
 }
 
 /*
