@@ -284,7 +284,7 @@ void main()
 	cin >> A;
 	cout << A-- << endl;
 	cout << A << endl;
-	A.op
+	//A.op
 }
 
 /*
