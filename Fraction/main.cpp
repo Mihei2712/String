@@ -1,9 +1,14 @@
 #include<iostream>
 using namespace std;
+using std::cout;
 
 //#define CONSTRUCTORS_CHECK
 //#define METHODS_CHECK
-#define OPERATORS_CHECK
+//#define OPERATORS_CHECK
+//#define COMPARISON_OPERATORS_CHECK
+#define TYPE_CONVERSIONS_CHECK
+
+//Single argument constructor
 
 class Fraction;
 
@@ -12,9 +17,9 @@ Fraction operator*(Fraction left, Fraction right);
 
 class Fraction
 {
-	int integer;	//целая часть
-	int numerator;	//числитель
-	int denominator;//знаменатель
+	int integer;	//целая часть (слева (збоку))
+	int numerator;	//числитель (сверху)
+	int denominator;//знаменатель (снизу)
 public:
 	const int& get_integer() const
 	{
@@ -61,7 +66,7 @@ public:
 		this->denominator = 1;
 		cout << "DefConstructor:\t" << this << endl;
 	}
-	Fraction(int integer)
+	explicit Fraction(int integer)
 	{
 		this->integer = integer;
 		this->numerator = 0;
@@ -105,11 +110,11 @@ public:
 	}
 	Fraction& operator+=(const Fraction& other)
 	{
-		return *this = *this+other;
+		return *this = *this + other;
 	}
 	Fraction& operator*=(const Fraction& other)
 	{
-		return *this=*this*other;
+		return *this = *this*other;
 	}
 
 	//			Increment/Decrement:
@@ -126,6 +131,7 @@ public:
 		return temp;
 	}
 
+
 	//			Arithmetical operators:
 	/*Fraction operator*(const Fraction& other) const
 	{
@@ -136,6 +142,31 @@ public:
 		return Fraction(left.numerator*right.numerator, left.denominator*right.denominator).to_proper().reduce();
 	}*/
 
+	Fraction& operator()(int integer, int numerator, int denominator)
+	{
+		this->set_integer(integer);
+		this->set_numerator(numerator);
+		this->set_denominator(denominator);
+		return *this;
+	}
+
+	//			Type cast operators:
+	/*operator bool()
+	{
+		if (integer == 0 && numerator == 0)return false;
+		return true;
+	}*/
+	explicit operator int()
+	{
+		return integer;
+	}
+
+	explicit operator double()
+	{
+		double decimal = integer;
+		decimal += (double)numerator / denominator;
+		return decimal;
+	}
 
 	//			Methods:
 	Fraction& to_proper()
@@ -159,7 +190,7 @@ public:
 		int more;
 		int less;
 		int reminder;
-		if (numerator > denominator)more = numerator,less = denominator;
+		if (numerator > denominator)more = numerator, less = denominator;
 		else less = numerator, more = denominator;
 
 		do
@@ -199,6 +230,13 @@ Fraction operator/(Fraction left, Fraction right)
 	left.to_improper();
 	right.to_improper();
 	return Fraction(left.get_numerator()*right.get_denominator(), left.get_denominator()*right.get_numerator()).to_proper().reduce();
+}
+
+bool operator==(Fraction left, Fraction right)
+{
+	left.reduce().to_improper();
+	right.reduce().to_improper();
+	return left.get_numerator() == right.get_numerator() && left.get_denominator() == right.get_denominator();
 }
 
 ostream& operator<<(ostream& os, const Fraction& obj)
@@ -251,5 +289,37 @@ void main()
 	cout << "\n--------------------------------------------------------\n";
 #endif // OPERATORS_CHECK
 
+#ifdef COMPARISON_OPERATORS_CHECK
+	Fraction A(1, 2, 3);
+	Fraction B(1, 2, 3);
+	cout << (A == B) << endl;
+	if (A == B)
+	{
+		cout << "Числа равны" << endl;
+	}
+	else
+	{
+		cout << "Числа НЕ равны" << endl;
+	}
+#endif // COMPARISON_OPERATORS_CHECK
 
+#ifdef TYPE_CONVERSIONS_CHECK
+	int a = 2;	//no conversions
+	int b = 3.5;//from double to int
+	double c = 5;//from int to double
+	Fraction A(5);//from int to Fraction(Single argument constructor)
+	cout << A << endl;
+	Fraction B(1, 2);
+	cout << (double)B << endl;
+	B = (Fraction)5;
+	cout << B << endl;
+	b = (double)B;
+	cout << b << endl;
+	/*A.set_integer(2);
+	A.set_numerator(3);
+	A.set_denominator(4);*/
+	A(2, 3, 4);
+	double d = (double)A;
+	cout << d << endl;
+#endif
 }
