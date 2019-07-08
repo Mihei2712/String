@@ -1,7 +1,3 @@
-TODO:
-1. Написать методы to_proper, to_improper, reduce. Если с последним возникнут сложности, пропустите его и идите дальше; DONE
-2. Перегрузить арифметические операторы: *, /, +, -; TODO
-3. Перегрузить составные присваивания: +=, -=, *=, /=;
-4. Перегрузить оператьоры сравнения: ==, !=, >, <, >=, <=.
-
-https://github.com/okovtun/IntroductionToOOP34evening
+1. Перегрузить оператор +=
+2. Добавить в класс MoveConstructor и MoveAssignment и провертрить их работу
+   http://www.cplusplus.com/doc/tutorial/classes2/
