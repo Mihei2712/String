@@ -4,6 +4,9 @@ using std::cout;
 
 //#define CONSTRUCTORS_CHECK
 
+class String;
+String operator+(const String& left, const String& right);
+
 class String
 {
 	int size;	//размер строки.
@@ -49,6 +52,13 @@ public:
 		}
 		cout << "CopyConstructor:" << this << endl;
 	}
+	String(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+		cout << "MoveConstructor:" << this << endl;
+	}
 	~String()
 	{
 		delete[] this->str;
@@ -73,6 +83,21 @@ public:
 		}
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
+	}
+
+	String& operator=(String&& other)
+	{
+		delete[] this->str;
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+		cout << "MoveAssignment:\t" << this << endl;
+		return *this;
+	}
+
+	String& operator+=(const String& other)
+	{
+		return *this = *this + other;
 	}
 
 	const char& operator[](int i) const
@@ -139,9 +164,13 @@ void main()
 	String str1 = "Hello";
 	String str2 = "World";
 	cout << "\n-------------------------\n";
-	String str3 = str1 + " " + str2;
-	cout << "\n-------------------------\n";
+	//String str3 = str1 + " " + str2;//MoveConstructor
+	String str3;
+	str3 = str1 + " " + str2;//MoveConstructor
 	cout << str3 << endl;
-	str1 += str2;
-	cout << str1 << endl;
+	cout << "\n-------------------------\n";
+	/*str1 += str2;
+	cout << str1 << endl;*/
+
+	//MoveConstructor & MoveAssignment
 }
